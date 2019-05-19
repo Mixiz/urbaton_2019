@@ -17,18 +17,20 @@
     $point = "POINT($position_x, $position_y)";
     
     try {
-      $db_connection = mysqli_connect("127.0.0.1", "postgres", "test", "events_db");
+      $db_connection = mysqli_connect("127.0.0.1", "root", null, "events_db");
       $db_connection->set_charset("utf8");
       //echo 'connected';
       $req_str = "SELECT e.descr "
                 . "     ,ST_X(e.coords) as latitude "
                 . "     ,ST_y(e.coords) as longitude "
                 . "     ,e.url "
+                . "     ,e.id "
+                . "     ,e.title "
                 //. "     ,e.start_date"
                 //. "     ,e.end_date"
                 . "FROM events e "
                 . "WHERE e.end_date >= UNIX_TIMESTAMP(STR_TO_DATE('" . $dates[0] . "','%m/%d/%Y'))"
-                 . " and e.start_date <= UNIX_TIMESTAMP(STR_TO_DATE('" . $dates[1] . "','%m/%d/%Y'))"
+                 . " and e.start_date <= STR_TO_DATE('" . $dates[1] . "','%m/%d/%Y')"
                  . " and ST_Distance(e.coords, $point) < 0.05";
                 // . " and categories in () ";
       //echo $req_str;
@@ -52,8 +54,6 @@
       echo json_encode('{"result":"ok","data":' .$str.'}');
       
       mysqli_free_result($result);
-      
-      
     }
     catch(Exception $ex) {
         echo json_encode('{result:"error"}');

@@ -12,7 +12,7 @@ var categories;
 var dates;
 // current coords of map center
 var coords;
-var last_coords;
+var last_coords = [];
 
 // initialize map and get first data
 $( document ).ready(function() {
@@ -55,7 +55,8 @@ function prepare_data() {
     coords = mymap.getCenter();
     coords = [coords.lat, coords.lng];
     console.log( coords );
-    last_coords = coords;
+    last_coords[0] = coords[0];
+    last_coords[1] = coords[1];
 }
 
 // retrieve data from server
@@ -74,7 +75,7 @@ function get_data() {
         // обработка пришедших данных
         if (msg.result = "ok") {
             //mymap.clearLayers();
-            alert('!!!');
+            //alert('!!!');
             //alert(msg.data);
             msg = JSON.parse(msg);
             //alert(msg);
@@ -82,16 +83,31 @@ function get_data() {
             var count = 0;
             data.forEach(function(item, i, data) {
                 descr = item.descr;
+                title = item.title;
                 latitude = item.latitude;
                 longitude = item.longitude;
+                id = item.id;
                 url = item.url;
                 var marker = L.marker([latitude, longitude]).addTo(mymap);
-                marker.bindPopup(descr + "<br>" + url).openPopup();
+                marker.bindPopup(descr + "<br><a href=" + url + ">Ссылка</href>");//.openPopup();
+                
+                // генерируем табы
+            
+                var tab = "<div class='btn rounded tab_field border' onclick='marker.openPopup();' name='tab" +id+ "'>" +
+                        "<button type='button' class='btn btn-primary btn-lg btn-block'>" +title+ "</button>" +
+                        "<p class='btn btn-default btn-lg btn-block'>" +
+                                descr +
+                            "<br><a href='"+url +"'>Ссылка</a>" +
+                        "</p>"
+                    "</div>";
+                $('#tab_id').append(tab);
+                
                 count++;
             });
-            alert(count);
+            //alert(count);
             // очистим таб
-            $('#tab_id').html('');
+            //.$('#tab_id').html('');
+
             alert("ok");
         }
         else

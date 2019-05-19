@@ -54,7 +54,15 @@ and open the template in the editor.
                 </div>
                 <div class="tab">
                     <h1>Мероприятия</h1>
-                    <div id="tab_id"></div>
+                    <div id="tab_id">
+                        <div class="btn rounded tab_field border-2">
+                            <button type="button" class="btn btn-primary btn-lg btn-block">Заголовок</button>
+                            <p class="btn btn-default btn-lg btn-block">
+                                Описание 
+                                <br><a href="google.com">Ссылка</a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -31,4 +31,9 @@ and open the template in the editor.
     width:20%;
 }
 
+.tab_field {
+    margin-left: 50px;
+    width:100%;
+}
+
 #mapid { height: 480px; }

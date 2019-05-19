@@ -27,31 +27,63 @@ $( document ).ready(function() {
     }).addTo(mymap);
     
     $('input[name="daterange"]').daterangepicker();
-    // Assign handlers immediately after making the request,
-    // and remember the jqXHR object for this request
-    // получить данные с сервера
-    prepare_data();
-    get_data();
 
-// get data without reload page
-$("#form_id").submit(function(event) { 
-    event.preventDefault();
-    prepare_data();
-    get_data();
-});
+    // получить категории и вывести список
+    get_categories();
+
+    // get data without reload page
+    $("#form_id").submit(function(event) { 
+        event.preventDefault();
+        prepare_data();
+        get_data();
+    });
 
 });
+
+function get_categories() {
+    var jqxhr = $.ajax( {
+            type: "POST",
+            url: "server/get_categories.php",
+            dataType: 'json',
+        })
+      .done(function(msg) {
+        // обработка пришедших данных
+        if (msg.result = "ok") {
+            msg = JSON.parse(msg);
+            //alert(msg);
+            data = msg.data;
+            
+            data.forEach(function(item, i, data) {
+                category = item.categories;
+                var tab = "<input type='checkbox' name='category[]' value='" + category + "' checked>" + category + "<Br>";
+                $('#filter_fields').append(tab);
+            });
+            
+            // получить данные с сервера
+            prepare_data();
+            get_data();
+        }
+        else
+            alert("error");
+      })
+      .fail(function (jqXHR, exception) {
+          alert(exception);
+      });
+}
 
 // get data from filters and prepare for ajax request
 // categories
 // dates
 // coords
 function prepare_data() {
-    categories = [];
+    categories = '';
     jQuery("input[name='category[]']").each(function() {
         console.log( this.value + ":" + this.checked );
-        if (this.checked)
-          categories.push(this.value);
+        if (this.checked) {
+          if (categories.length > 0)
+              categories = categories + ',';
+          categories = categories + "'" + this.value + "'";
+        }
     });
     
     jQuery("input[name='daterange']").each(function() {
@@ -64,6 +96,14 @@ function prepare_data() {
     console.log( coords );
     last_coords[0] = coords[0];
     last_coords[1] = coords[1];
+}
+
+function openPopup(id) {
+    objects.forEach(function(item, i, objects) {
+        if(item.id == id)
+            item.openPopup();
+        //alert( i + ": " + item + " (массив:" + arr + ")" );
+    });
 }
 
 // retrieve data from server
@@ -79,8 +119,8 @@ function get_data() {
               }
         })
       .done(function(msg) {
-        // обработка пришедших данных
 //alert(msg);
+        // обработка пришедших данных
         if (msg.result = "ok") {
             //alert('!!!');
             //alert(msg.data);
@@ -96,7 +136,6 @@ function get_data() {
             
             // очистим таб
             $('#tab_id').html('');
-            alert('1');
             var count = 0;
             data.forEach(function(item, i, data) {
                 descr = item.descr;
@@ -106,15 +145,16 @@ function get_data() {
                 id = item.id;
                 url = item.url;
                 var marker = L.marker([latitude, longitude]).addTo(mymap);
+                marker.id = id;
                 marker.bindPopup(title + "<br><a href=" + url + ">Ссылка</href>");//.openPopup();
                 objects.push(marker);
                 // генерируем табы
             
-                var tab = "<div class='btn rounded tab_field border' onclick='marker.openPopup();' name='tab" +id+ "'>" +
+                var tab = "<div class='btn rounded tab_field border' onclick='openPopup("+ id +");' name='tab" +id+ "'>" +
                         "<button type='button' class='btn btn-primary btn-lg btn-block'>" +title+ "</button>" +
                         "<p class='btn btn-default btn-lg btn-block'>" +
                                 descr +
-                            "<br><a href='"+url +"'>Ссылка</a>" +
+                            "<a href='"+url +"'>Ссылка</a>" +
                         "</p>"
                     "</div>";
                 $('#tab_id').append(tab);

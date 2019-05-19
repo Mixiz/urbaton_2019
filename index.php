@@ -37,15 +37,15 @@ and open the template in the editor.
                 <div class="filter">
                     <h1>Фильтры</h1>
                     <form id="form_id">
-                     <p><b>Категории</b></p>
-                     <p align="left" class="filter-fields">
-                       <input type="checkbox" name="category[]" value="excursion" checked>Экскурсии<Br>
-                       <input type="checkbox" name="category[]" value="master_class" checked>Мастер-классы<Br>
-                       <input type="checkbox" name="category[]" value="festival" checked>Фестивали<Br> 
-                     </p>
-                     <p><b>Даты</b></p>
+                      <p><input type="submit" value="Обновить" id="submit_btn"></p>
+                      <p><b>Даты</b></p>
                        <input type="text" name="daterange" value="05/18/2019 - 05/25/2019" />
-                     <p><input type="submit" value="Отправить" id="submit_btn"></p>
+                     <p><b>Категории</b></p>
+                     <p align="left" class="filter-fields" id="filter_fields">
+                       <!--<input type="checkbox" name="category[]" value="excursion" checked>Экскурсии<Br>
+                       <input type="checkbox" name="category[]" value="master_class" checked>Мастер-классы<Br>
+                       <input type="checkbox" name="category[]" value="festival" checked>Фестивали<Br> -->
+                     </p>
                     </form>
                 </div>
                 <div class="map">

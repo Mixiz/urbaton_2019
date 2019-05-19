@@ -151,8 +151,8 @@ function get_data() {
                 // генерируем табы
             
                 var tab = "<div class='btn rounded tab_field border' onclick='openPopup("+ id +");' name='tab" +id+ "'>" +
-                        "<button type='button' class='btn btn-primary btn-lg btn-block'>" +title+ "</button>" +
-                        "<p class='btn btn-default btn-lg btn-block'>" +
+                        "<button type='button' class='btn btn-primary btn btn-block'>" +title+ "</button>" +
+                        "<p class='btn btn-default btn-sm btn-block'>" +
                                 descr +
                             "<a href='"+url +"'>Ссылка</a>" +
                         "</p>"

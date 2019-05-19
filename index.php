@@ -30,7 +30,7 @@ and open the template in the editor.
     <body>
         <div class="main" align="center">
             <div class="header">
-                <p>MyEvent</p>
+                <h1>MyEvent</h1>
                 <p>Мероприятия, события, мастер-классы</p>
             </div>
             <div class="row">

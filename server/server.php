@@ -5,7 +5,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
     $categories = !empty($_POST['categories']) ? $_POST['categories'] : '';
     $dates = !empty($_POST['dates']) ? $_POST['dates'] : '05/19/2019 - 05/25/2019';
     $position_x = !empty($_POST['position_x']) ? $_POST['position_x'] : '56.838011';
@@ -29,11 +28,11 @@
                 //. "     ,e.start_date"
                 //. "     ,e.end_date"
                 . "FROM events e "
-                . "WHERE e.end_date >= UNIX_TIMESTAMP(STR_TO_DATE('" . $dates[0] . "','%m/%d/%Y'))"
+                . "WHERE e.end_date >= STR_TO_DATE('" . $dates[0] . "','%m/%d/%Y')"
                  . " and e.start_date <= STR_TO_DATE('" . $dates[1] . "','%m/%d/%Y')"
                  . " and ST_Distance(e.coords, $point) < 0.05";
                 // . " and categories in () ";
-      //echo $req_str;
+      //echo json_encode($req_str);
       //exit;
       $result = mysqli_query($db_connection,$req_str);
       $str = '[';

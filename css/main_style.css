@@ -31,9 +31,15 @@ and open the template in the editor.
     width:20%;
 }
 
+.scrollable {
+   width:380px;
+   overflow: scroll;
+   height: 500px;
+}
+
 .tab_field {
-    margin-left: 50px;
-    width:100%;
+    margin-left: 30px;
+    width:80%;
 }
 
 #mapid { height: 480px; }

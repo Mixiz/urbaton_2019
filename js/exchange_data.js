@@ -5,7 +5,7 @@
  */
 var mymap;
 // data from server
-var objects;
+var objects = [];
 // filter category
 var categories;
 // filter event dates
@@ -32,6 +32,13 @@ $( document ).ready(function() {
     // получить данные с сервера
     prepare_data();
     get_data();
+
+// get data without reload page
+$("#form_id").submit(function(event) { 
+    event.preventDefault();
+    prepare_data();
+    get_data();
+});
 
 });
 
@@ -62,24 +69,34 @@ function prepare_data() {
 // retrieve data from server
 function get_data() {
     var jqxhr = $.ajax( {
-            method: "POST",
+            type: "POST",
             url: "server/server.php",
             dataType: 'json',
             data: { categories: categories
                   , dates: dates
-                  , position_x:coords.lat
-                  , position_y:coords.lng
+                  , position_x:coords[0]
+                  , position_y:coords[1]
               }
         })
       .done(function(msg) {
         // обработка пришедших данных
+//alert(msg);
         if (msg.result = "ok") {
-            //mymap.clearLayers();
             //alert('!!!');
             //alert(msg.data);
             msg = JSON.parse(msg);
             //alert(msg);
             data = msg.data;
+            
+            // чистим карту
+            objects.forEach(function(entry) {
+                entry.remove();
+            });
+            objects = [];
+            
+            // очистим таб
+            $('#tab_id').html('');
+            alert('1');
             var count = 0;
             data.forEach(function(item, i, data) {
                 descr = item.descr;
@@ -89,8 +106,8 @@ function get_data() {
                 id = item.id;
                 url = item.url;
                 var marker = L.marker([latitude, longitude]).addTo(mymap);
-                marker.bindPopup(descr + "<br><a href=" + url + ">Ссылка</href>");//.openPopup();
-                
+                marker.bindPopup(title + "<br><a href=" + url + ">Ссылка</href>");//.openPopup();
+                objects.push(marker);
                 // генерируем табы
             
                 var tab = "<div class='btn rounded tab_field border' onclick='marker.openPopup();' name='tab" +id+ "'>" +
@@ -105,10 +122,8 @@ function get_data() {
                 count++;
             });
             //alert(count);
-            // очистим таб
-            //.$('#tab_id').html('');
 
-            alert("ok");
+            //alert("ok");
         }
         else
             alert("error");

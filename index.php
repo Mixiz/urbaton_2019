@@ -36,7 +36,7 @@ and open the template in the editor.
             <div class="row">
                 <div class="filter">
                     <h1>Фильтры</h1>
-                    <form method="post" action="input5.php">
+                    <form id="form_id">
                      <p><b>Категории</b></p>
                      <p align="left" class="filter-fields">
                        <input type="checkbox" name="category[]" value="excursion" checked>Экскурсии<Br>
@@ -45,7 +45,7 @@ and open the template in the editor.
                      </p>
                      <p><b>Даты</b></p>
                        <input type="text" name="daterange" value="05/18/2019 - 05/25/2019" />
-                     <p><input type="submit" value="Отправить" onclick="get_data();"></p>
+                     <p><input type="submit" value="Отправить" id="submit_btn"></p>
                     </form>
                 </div>
                 <div class="map">
@@ -54,14 +54,14 @@ and open the template in the editor.
                 </div>
                 <div class="tab">
                     <h1>Мероприятия</h1>
-                    <div id="tab_id">
-                        <div class="btn rounded tab_field border-2">
+                    <div id="tab_id" class="scrollable">
+                        <!--<div class="btn rounded tab_field border-2">
                             <button type="button" class="btn btn-primary btn-lg btn-block">Заголовок</button>
                             <p class="btn btn-default btn-lg btn-block">
                                 Описание 
                                 <br><a href="google.com">Ссылка</a>
                             </p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
